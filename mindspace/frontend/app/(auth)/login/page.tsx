@@ -31,8 +31,8 @@ export default function LoginPage() {
             <Mail className="text-slate-400" size={20} />
             <input
               type="email"
-              placeholder="example@email.com"
-              className="ml-3 w-full outline-none"
+              placeholder="youremail@email.com"
+              className="ml-3 w-full outline-none placeholder:text-slate-400 text-slate-400"
             />
           </div>
         </div>
@@ -49,7 +49,7 @@ export default function LoginPage() {
             <input
               type="password"
               placeholder="••••••••"
-              className="ml-3 w-full outline-none"
+              className="ml-3 w-full outline-none placeholder:text-slate-400 text-slate-400"
             />
 
             <button type="button">
@@ -60,7 +60,7 @@ export default function LoginPage() {
 
         {/* Remember */}
         <div className="flex justify-between items-center mt-4 text-sm">
-          <label className="flex items-center gap-2">
+          <label className="flex items-center gap-2 block text-sm font-medium text-slate-700 mb-2">
             <input type="checkbox" />
             Remember me
           </label>
@@ -84,7 +84,7 @@ export default function LoginPage() {
         <p className="text-center text-sm text-slate-500 mt-6">
           Don't have an account?{" "}
           <Link
-            href="/register"
+            href="/signup"
             className="font-semibold text-indigo-600 hover:underline"
           >
             Register
