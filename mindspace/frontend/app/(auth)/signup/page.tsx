@@ -54,7 +54,7 @@ export default function SignupPage() {
                     placeholder="Enter your password"
                     required
                     onChange={(e) => setPassword(e.target.value)}
-                    className="ml-3 w-full outline-none placeholder:text-slate-400 text-slate-400"
+                    className="ml-3 w-full outline-none placeholder:text-slate-400 text-slate-400 text-xl placeholder:text-base"
                 />
             </div>
         </div>
@@ -72,7 +72,7 @@ export default function SignupPage() {
                     value={confirmPassword}
                     required
                     onChange={(e) => setConfirmPassword(e.target.value)}
-                    className="ml-3 w-full outline-none placeholder:text-slate-400 text-slate-400"
+                    className="ml-3 w-full outline-none placeholder:text-slate-400 text-slate-400 text-xl placeholder:text-base"
                 />
 
             </div>

@@ -1,7 +1,11 @@
+"use client";
 import Link from "next/link";
-import { Mail, Lock, Eye, Brain } from "lucide-react";
+import { Mail, Lock, Eye, Brain, EyeClosed } from "lucide-react";
+import { useState } from "react";
 
 export default function LoginPage() {
+  const [showPassword, setShowPassword] = useState(false);
+  const [password, setPassword] = useState("");
   return (
     <main className="min-h-screen bg-slate-50 flex items-center justify-center px-6 pb-30">
       <div className="w-full max-w-xl rounded-2xl bg-white shadow-xl border border-slate-200 p-8">
@@ -47,13 +51,18 @@ export default function LoginPage() {
             <Lock className="text-slate-400" size={20} />
 
             <input
-              type="password"
+              type={showPassword ? "text" : "password"}
+              value= {password}
               placeholder="••••••••"
-              className="ml-3 w-full outline-none placeholder:text-slate-400 text-slate-400"
+              onChange={(e) => setPassword(e.target.value)}
+              className="ml-3 w-full outline-none placeholder:text-slate-400 text-slate-400 placeholder:text-xl"
             />
 
-            <button type="button">
-              <Eye className="text-slate-400" size={20} />
+            <button type="button"
+                    onClick={()=> setShowPassword(!showPassword)}
+                    className="text-slate-400"
+            >
+              {showPassword ? <Eye size={20}/>: <EyeClosed size={20}/>}
             </button>
           </div>
         </div>
