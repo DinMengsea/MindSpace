@@ -1,5 +1,5 @@
 import Link from "next/link";
-import {BellDot,Bell} from "lucide-react";
+import {BellDot,Bell, LucideMessageCircleMore} from "lucide-react";
 
 export default function Header() {
   return (
@@ -19,6 +19,14 @@ export default function Header() {
             className="p-2 rounded-full text-gray-600 hover:bg-gray-100 hover:text-indigo-600 transition">
             <Bell size={22} />
         </button>
+
+        {/*Chat Bubble*/}
+
+        <button
+            className="p-2 rounded-full text-gray-600 hover:bg-gray-100 hover:text-indigo-600 transition">
+            <LucideMessageCircleMore size={22}/>
+        </button>
+
         {/* Login */}
 
         <Link href="/login"
