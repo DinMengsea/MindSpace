@@ -4,9 +4,46 @@ import Link from "next/link";
 import { useState } from "react";
 import { Mail, Lock, Cake, Brain } from "lucide-react";
 
+import { register } from "@/lib/api";
+import { useRouter } from "next/navigation";
+
 export default function SignupPage() {
-  const [password, setPassword] = useState("");
-  const [confirmPassword, setConfirmPassword] = useState("");
+    const [name, setName] = useState("");
+    const [email, setEmail] = useState("");
+    const [password, setPassword] = useState("");
+    const [confirmPassword, setConfirmPassword] = useState("");
+    const [loading, setLoading] = useState(false);
+    const router = useRouter();
+
+    const handleSignup = async () => {
+        if (password !== confirmPassword) {
+            alert("Passwords do not match");
+            return;
+        }
+
+        try {
+            setLoading(true);
+
+            await register({
+            name,
+            email,
+            password,
+            password_confirmation: confirmPassword,
+            });
+
+            alert("Account created successfully!");
+
+            router.push("/login");
+        } catch (error) {
+            if (error instanceof Error) {
+            alert(error.message);
+            } else {
+            alert("Something went wrong");
+            }
+        } finally {
+            setLoading(false);
+        }
+        };
 
   return (
     <main className="min-h-screen bg-slate-50 flex items-center justify-center px-6 pb-30">
@@ -25,6 +62,21 @@ export default function SignupPage() {
             </p>
         </div>
 
+        {/* Name */}
+        <div className="mb-5">
+        <label className="block text-sm font-medium text-slate-700 mb-2">
+            Name
+        </label>
+
+        <input
+            type="text"
+            placeholder="Your name"
+            value={name}
+            onChange={(e) => setName(e.target.value)}
+            className="w-full border rounded-xl px-4 py-3 outline-none focus:ring-2 focus:ring-indigo-500"
+        />
+        </div>
+
         {/* Email */}
         <div className="mb-5">
             <label className="block text-sm font-medium text-slate-700 mb-2">
@@ -36,6 +88,8 @@ export default function SignupPage() {
                 <input
                     type="email"
                     placeholder="youremail@email.com"
+                    value={email}
+                    onChange={(e) => setEmail(e.target.value)}
                     className="ml-3 w-full outline-none placeholder:text-slate-400 text-slate-400"
                 />
             </div>
@@ -102,8 +156,12 @@ export default function SignupPage() {
         
         {/* Signup */}
 
-        <button className="w-full mt-6 rounded-xl bg-indigo-600 py-3 font-semibold text-white hover:bg-indigo-700 transition">
-            Sign Up
+        <button
+            onClick={handleSignup}
+            disabled={loading}
+            className="w-full mt-6 rounded-xl bg-indigo-600 py-3 font-semibold text-white hover:bg-indigo-700 transition disabled:opacity-50"
+        >
+            {loading ? "Creating Account..." : "Sign Up"}
         </button>
         
         {/* Already have an account? */}

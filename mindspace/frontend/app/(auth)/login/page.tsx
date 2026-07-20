@@ -1,11 +1,45 @@
 "use client";
+
 import Link from "next/link";
 import { Mail, Lock, Eye, Brain, EyeClosed } from "lucide-react";
 import { useState } from "react";
+import { useRouter } from "next/navigation";
+import { login } from "@/lib/api";
 
 export default function LoginPage() {
+  const router = useRouter();
+
   const [showPassword, setShowPassword] = useState(false);
+
+  const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [loading, setLoading] = useState(false);
+
+  const handleLogin = async () => {
+    try {
+      setLoading(true);
+
+      const result = await login({
+        email,
+        password,
+      });
+
+      // Save the token
+      localStorage.setItem("token", result.token);
+
+      alert("Login successful!");
+
+      router.push("/");
+    } catch (error) {
+      if (error instanceof Error) {
+        alert(error.message);
+      } else {
+        alert("Login failed");
+      }
+    } finally {
+      setLoading(false);
+    }
+  };
   return (
     <main className="min-h-screen bg-slate-50 flex items-center justify-center px-6 pb-30">
       <div className="w-full max-w-xl rounded-2xl bg-white shadow-xl border border-slate-200 p-8">
@@ -36,6 +70,8 @@ export default function LoginPage() {
             <input
               type="email"
               placeholder="youremail@email.com"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
               className="ml-3 w-full outline-none placeholder:text-slate-400 text-slate-400"
             />
           </div>
@@ -84,9 +120,11 @@ export default function LoginPage() {
 
         {/* Login */}
         <button
-          className="w-full mt-6 rounded-xl bg-indigo-600 py-3 font-semibold text-white hover:bg-indigo-700 transition"
+          onClick={handleLogin}
+          disabled={loading}
+          className="w-full mt-6 rounded-xl bg-indigo-600 py-3 font-semibold text-white hover:bg-indigo-700 transition disabled:opacity-50"
         >
-          Login
+          {loading ? "Logging in..." : "Login"}
         </button>
 
         {/* Register */}
