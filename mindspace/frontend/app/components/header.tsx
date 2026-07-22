@@ -1,39 +1,41 @@
 import Link from "next/link";
-import {BellDot,Bell, LucideMessageCircleMore} from "lucide-react";
+import { Bell, MessageCircleMore } from "lucide-react";
 
 export default function Header() {
   return (
-    <header className=" w-full flex items-center justify-between">
-      {/* Left Side */}
-      <div className="flex items-center gap-4 justify-space-between">
-        <h1 className="text-2xl font-bold text-indigo-400">
-          Good morning, MindSpace!
+    <header className="flex w-full items-center justify-between py-3">
+
+      {/* Left */}
+      <div>
+        <h1 className="text-xl font-bold text-zinc-900">
+          Good morning, <span className="text-indigo-600">MindSpace!</span>
         </h1>
+
+        <p className="mt-1 text-sm text-zinc-500">
+          Ready to capture today's thoughts?
+        </p>
       </div>
 
-      {/* Right Side */}
+      {/* Right */}
+      <div className="flex items-center gap-3">
 
-     <div className="flex items-center gap-4">
-        {/* Notification */}
-        <button
-            className="p-2 rounded-full text-gray-600 hover:bg-gray-100 hover:text-indigo-600 transition">
-            <Bell size={22} />
+        <button className="rounded-xl p-2 text-zinc-500 transition hover:bg-zinc-100 hover:text-indigo-600">
+          <Bell size={20} />
         </button>
 
-        {/*Chat Bubble*/}
-
-        <button
-            className="p-2 rounded-full text-gray-600 hover:bg-gray-100 hover:text-indigo-600 transition">
-            <LucideMessageCircleMore size={22}/>
+        <button className="rounded-xl p-2 text-zinc-500 transition hover:bg-zinc-100 hover:text-indigo-600">
+          <MessageCircleMore size={20} />
         </button>
 
-        {/* Login */}
-
-        <Link href="/login"
-            className="px-5 py-2 rounded-lg bg-indigo-600 text-white font-medium hover:bg-indigo-700 transition duration-200 shadow-sm">
-            Login
+        <Link
+          href="/login"
+          className="rounded-xl bg-indigo-600 px-4 py-2 text-sm font-medium text-white transition hover:bg-indigo-700"
+        >
+          Login
         </Link>
-    </div>    
+
+      </div>
+
     </header>
   );
 }

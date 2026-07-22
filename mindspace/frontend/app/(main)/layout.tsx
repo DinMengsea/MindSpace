@@ -1,36 +1,30 @@
+"use client";
+import { useState, type ComponentType } from "react";
 import Sidebar from "../components/sidebar";
-import { Fredoka,} from "next/font/google";
-// Example
-// export default function RootLayout({children}: {children: React.ReactNode}) {
-//   return (
-//     <html lang="en">
-//       <body>{children}</body>
-//       <Header />
-//       <Footer />
-//     </html>
-//   );
-// }
-// // Different between export function meaning it can use in other files, but function Header() is only used in this file
+import SettingsModal from "../components/SettingsModal";
 
-// export function Header() {
-//     return <h1>Header</h1>;
-// }
+export default function MainLayout({
+  children,
+}: {
+  children: React.ReactNode;
+}) {
+  const [openSettings, setOpenSettings] = useState(false);
 
-// export function Footer() {
-//     return <h1>Footer</h1>;
-// }
-const fredoka = Fredoka({
-  subsets: ["latin"],
-});
+  return (
+    <div className="flex h-screen bg-slate-50">
 
-export default function MainLayout({children,}: {children: React.ReactNode;}) {
-    return (
-      <div className="flex h-screen bg-slate-50">
-        <Sidebar />
+      <Sidebar onOpenSettings={() => setOpenSettings(true)} />
 
-        <main className="flex-1 overflow-y-auto bg-slate-50 p-8">
-          {children}
-        </main>
-      </div>
+      <main className="flex-1 overflow-y-auto bg-slate-50 px-5 pt-3 pb-5">
+        {children}
+      </main>
+
+      {openSettings && (
+        <SettingsModal
+          onClose={() => setOpenSettings(false)}
+        />
+      )}
+
+    </div>
   );
 }

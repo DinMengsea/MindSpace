@@ -1,4 +1,4 @@
-import SettingSidebar from "../components/settingsidebar";
+
 
 export default function SettingsLayout({
   children,
@@ -7,7 +7,6 @@ export default function SettingsLayout({
 }) {
   return (
     <div className="min-h-screen bg-slate-100">
-      <SettingSidebar/>
       <main className="mx-auto max-w-5xl p-8">
         {children}
       </main>

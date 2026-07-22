@@ -6,14 +6,18 @@ const fredoka = Fredoka({
   subsets: ["latin"],
 });
 
-export default function Sidebar() {
+interface SidebarProps{
+    onOpenSettings: ()=> void;
+}
+
+export default function Sidebar({onOpenSettings}:SidebarProps) {
     return(
         <aside className="w-72 h-screen bg-white border-r border-zinc-200 flex flex-col sticky top-0">
             <div className="flex items-center justify-center gap-1 mr-17 mt-3">
                 <Image src="/logoblack.png" alt="Logo" width={45} height={45}/>
-                <h1 className={`${fredoka.className} text-indigo-400 text-2xl font-bold ml-0`}>Mind Space</h1>
+                <h1 className={`${fredoka.className} text-indigo-600 text-2xl font-bold ml-0`}>Mind Space</h1>
             </div>
-        <NavigationBar />
+        <NavigationBar onOpenSettings={onOpenSettings} />
         </aside>
         
     );
