@@ -3,18 +3,56 @@ import { ArrowRight } from "lucide-react";
 
 export default function RecentEntries() {
   return (
-    <section className="mt-5 w-full rounded-3xl border border-zinc-200 bg-zinc p-5 shadow-sm">
+    <section
+      className="
+        mt-5
+        w-full
+        rounded-3xl
 
+        border
+        border-zinc-200
+        dark:border-zinc-800
+
+        bg-white
+        dark:bg-zinc-900
+
+        p-5
+        shadow-sm
+
+        transition-colors
+        duration-300
+      "
+    >
       {/* Header */}
       <div className="mb-4 flex items-center justify-between">
-        <h2 className="text-xl font-bold text-zinc-900">
+
+        <h2 className="text-xl font-bold text-zinc-900 dark:text-white">
           Recent Entries
         </h2>
 
-        <button className="flex items-center gap-1 text-sm font-medium text-indigo-600 transition hover:text-indigo-700">
+        <button
+          className="
+            flex
+            items-center
+            gap-1
+
+            text-sm
+            font-medium
+
+            text-zinc-600
+            dark:text-zinc-400
+
+            transition-colors
+            duration-300
+
+            hover:text-zinc-900
+            dark:hover:text-white
+          "
+        >
           View All
           <ArrowRight className="h-4 w-4" />
         </button>
+
       </div>
 
       {/* Journal List */}
@@ -42,7 +80,6 @@ export default function RecentEntries() {
         />
 
       </div>
-
     </section>
   );
 }

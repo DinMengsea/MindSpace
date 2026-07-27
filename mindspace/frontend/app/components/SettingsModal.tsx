@@ -2,99 +2,175 @@
 
 import { useState } from "react";
 import { X } from "lucide-react";
-import SettingSidebar from "./SettingSidebar";
 import { motion } from "framer-motion";
 
-interface SettingModalProps{
-    onClose: ()=> void;
+import SettingSidebar from "./SettingSidebar";
+
+import AccountSettings from "../setting/AccountSettings";
+import AppearanceSetting from "../setting/AppearanceSetting";
+
+import type { SettingTab } from "../components/types";
+
+interface SettingModalProps {
+  onClose: () => void;
 }
 
+export default function SettingsModal({
+  onClose,
+}: SettingModalProps) {
+  const [activeTab, setActiveTab] =
+    useState<SettingTab>("account");
 
+  const tabComponents: Record<SettingTab, React.ReactNode> = {
+    account: <AccountSettings />,
+    appearance: <AppearanceSetting />,
+    journal: <div>Journal Settings</div>,
+    notification: <div>Notification Settings</div>,
+    privacy: <div>Privacy Settings</div>,
+    security: <div>Security Settings</div>,
+    language: <div>Language Settings</div>,
+    about: <div>About MindSpace</div>,
+  };
 
-export default function SettingsModal({onClose}: SettingModalProps) {
-    const [activeTab, setActiveTab] = useState("account");
+  return (
+    <motion.div
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      exit={{ opacity: 0 }}
+      className="
+        fixed
+        inset-0
+        z-50
 
-    return (
+        flex
+        items-center
+        justify-center
 
-        <motion.div
-         initial={{ opacity: 0 }}
-         animate={{ opacity: 1 }}
-         exit={{ opacity: 0 }}
-         className="fixed inset-0 z-50 flex items-center justify-center bg-black/30 backdrop-blur-sm">
+        bg-black/40
 
-        {/* Modal */}
-        <motion.div
-            initial={{
-                opacity: 0,
-                scale: 0.92,
-                y: 30,
-            }}
-            animate={{
-                opacity: 1,
-                scale: 1,
-                y: 0,
-            }}
-            exit={{
-                opacity: 0,
-                scale: 0.92,
-                y: 20,
-            }}
-            transition={{
-                duration: 0.35,
-                ease: "easeOut",
-            }}
-            className="h-[85vh] w-[85vw] rounded-3xl bg-white shadow-2xl overflow-hidden">
+        backdrop-blur-sm
+      "
+    >
+      {/* Modal */}
 
-            {/* Header */}
-            <div className="flex items-center justify-between border-b border-zinc-200 px-8 py-6">
+      <motion.div
+        initial={{
+          opacity: 0,
+          scale: 0.92,
+          y: 30,
+        }}
+        animate={{
+          opacity: 1,
+          scale: 1,
+          y: 0,
+        }}
+        exit={{
+          opacity: 0,
+          scale: 0.92,
+          y: 20,
+        }}
+        transition={{
+          duration: 0.35,
+          ease: "easeOut",
+        }}
+        className="
+          flex
+          h-[95vh]
+          w-[95vw]
+          max-w-7xl
+          flex-col
 
-                <div>
-                    <h1 className="text-3xl font-bold text-zinc-900">
-                    Settings
-                    </h1>
+          overflow-hidden
 
-                    <p className="mt-1 text-sm text-zinc-500">
-                    Manage your account and personalize MindSpace
-                    </p>
-                </div>
+          rounded-3xl
 
-                <button onClick={onClose} 
-                        className="rounded-xl p-2 transition hover:bg-zinc-100">
-                        <X size={24} />
-                </button>
+          bg-white
+          dark:bg-zinc-950
 
-            </div>
+          shadow-2xl
 
-            {/* Body */}
-            <div className="grid h-[calc(85vh-96px)] grid-cols-[280px_1fr]">
+          transition-colors
+          duration-300
+        "
+      >
+        {/* Header */}
 
-                {/* Sidebar */}
-                <SettingSidebar 
-                    activeTab= {activeTab}
-                    setActiveTab={setActiveTab}
-                />
+        <div
+          className="
+            flex
+            items-center
+            justify-between
 
-                {/* Main Content */}
-                <main className="overflow-y-auto p-8">
-                    {activeTab === "account" && <div>Account Settings</div>}
+            border-b
+            border-zinc-200
+            dark:border-zinc-800
 
-                    {activeTab === "appearance" && <div>Appearance Settings</div>}
+            px-6
+            py-5
+            lg:px-8
+          "
+        >
+          <div>
+            <h1 className="text-3xl font-bold text-zinc-900 dark:text-white">
+              Settings
+            </h1>
 
-                    {activeTab === "journal" && <div>Journal Settings</div>}
+            <p className="mt-1 text-sm text-zinc-500 dark:text-zinc-400">
+              Manage your account and personalize MindSpace
+            </p>
+          </div>
 
-                    {activeTab === "notification" && <div>Notification Settings</div>}
+          <button
+            onClick={onClose}
+            className="
+              rounded-xl
+              p-2
 
-                    {activeTab === "privacy" && <div>Privacy Settings</div>}
+              transition-all
 
-                    {activeTab === "security" && <div>Security Settings</div>}
+              hover:bg-zinc-100
+              dark:hover:bg-zinc-800
+            "
+          >
+            <X className="text-zinc-700 dark:text-zinc-300" size={24} />
+          </button>
+        </div>
 
-                    {activeTab === "about" && <div>About MindSpace</div>}
-                </main>
+        {/* Body */}
 
-            </div>
+        <div
+          className="
+            grid
+            flex-1
+            overflow-hidden
 
-        </motion.div>
+            grid-cols-[240px_1fr]
+            lg:grid-cols-[300px_1fr]
+          "
+        >
+          <SettingSidebar
+            activeTab={activeTab}
+            setActiveTab={setActiveTab}
+          />
 
+          <main
+            className="
+              overflow-y-auto
+
+              bg-zinc-50
+              dark:bg-zinc-950
+
+              p-6
+              lg:p-8
+
+              transition-colors
+              duration-300
+            "
+          >
+            {tabComponents[activeTab]}
+          </main>
+        </div>
+      </motion.div>
     </motion.div>
   );
 }

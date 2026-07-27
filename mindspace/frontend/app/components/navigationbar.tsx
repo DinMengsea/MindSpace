@@ -1,51 +1,171 @@
-import Link from "next/link";
-import { House, User, Users, Bot, Notebook, Activity, ChartColumn, Library, HeartPlus, Settings } from "lucide-react";
+"use client";
 
-interface NavigationBarProp{
-    onOpenSettings: ()=> void;
+import Link from "next/link";
+import { usePathname } from "next/navigation";
+import {
+  House,
+  Users,
+  Bot,
+  Notebook,
+  Activity,
+  ChartColumn,
+  Library,
+  HeartPlus,
+  Settings,
+} from "lucide-react";
+
+interface NavigationBarProp {
+  onOpenSettings: () => void;
 }
 
-export default function NavigationBar({onOpenSettings}:NavigationBarProp){
-     return (
-        <nav className="flex h-full flex-col text-gray-500">
+const menu = [
+  { href: "/", icon: House, title: "Home" },
+  { href: "/aicompanion", icon: Bot, title: "AI Companion" },
+  { href: "/community", icon: Users, title: "Community" },
+  { href: "/journal", icon: Notebook, title: "Journal" },
+  { href: "/moodtracker", icon: Activity, title: "Mood Tracker" },
+  { href: "/analysis", icon: ChartColumn, title: "Analysis" },
+  { href: "/resource", icon: Library, title: "Resources" },
+];
 
-            {/* Top navigation*/}
+export default function NavigationBar({
+  onOpenSettings,
+}: NavigationBarProp) {
+  const pathname = usePathname();
 
-            <div className="flex flex-col gap-1 mt-7 ml-3 mr-3 justify-space-between text-gray-500">
-                <Link href="/" className="flex items-center gap-3 px-4 py-2 rounded-xl transition-all duration-200 hover:bg-[#EEF2FF] hover:text-indigo-400">
-                    <House size={20}/>Home
-                </Link>
-                <Link href="/aicompanion" className="flex items-center gap-3 px-4 py-2 rounded-xl transition-all duration-200 hover:bg-[#EEF2FF] hover:text-indigo-400">
-                    <Bot size={20}/>AI Companion
-                </Link>
-                <Link href="/community" className="flex items-center gap-3 px-4 py-2 rounded-xl transition-all duration-200 hover:bg-[#EEF2FF] hover:text-indigo-400">
-                    <Users size={20}/>Community
-                </Link>
-                <Link href="/journal" className="flex items-center gap-3 px-4 py-2 rounded-xl transition-all duration-200 hover:bg-[#EEF2FF] hover:text-indigo-400">
-                    <Notebook size={20}/>Journal
-                </Link>
-                <Link href="/moodtracker" className="flex items-center gap-3 px-4 py-2 rounded-xl transition-all duration-200 hover:bg-[#EEF2FF] hover:text-indigo-400">
-                    <Activity size={20}/>Mood Tracker
-                </Link>
-                <Link href="/analysis" className="flex items-center gap-3 px-4 py-2 rounded-xl transition-all duration-200 hover:bg-[#EEF2FF] hover:text-indigo-400">
-                    <ChartColumn size={20}/>Analysis
-                </Link>
-                <Link href="/resource" className="flex items-center gap-3 px-4 py-2 rounded-xl transition-all duration-200 hover:bg-[#EEF2FF] hover:text-indigo-400">
-                    <Library size={20}/>Resources
-                </Link>
-            </div>
+  return (
+    <nav className="flex h-full flex-col">
 
-                {/* Bottom navigation*/}
+      {/* Top Menu */}
+      <div className="flex-1 overflow-y-auto space-y-2 p-3 sm:p-4 lg:p-5">
 
-             <div className="mt-auto mb-8 mx-3 flex flex-col gap-1">
-                <Link href="/support" className="flex items-center gap-3 px-4 py-2 rounded-xl transition-all duration-200 hover:bg-[#EEF2FF] hover:text-indigo-400">
-                    <HeartPlus size={20}/>Support
-                </Link>
-                <button onClick={onOpenSettings} className="flex items-center gap-3 px-4 py-2 rounded-xl transition-all duration-200 hover:bg-[#EEF2FF] hover:text-indigo-400">
-                    <Settings size={20}/>Settings
-                </button>   
-            </div>
+        {menu.map((item) => {
+          const Icon = item.icon;
+          const active = pathname === item.href;
 
-        </nav>
-     );
+          return (
+            <Link
+              key={item.href}
+              href={item.href}
+              className={`
+                flex items-center gap-3
+                rounded-xl
+                px-3 py-2.5
+                lg:px-4 lg:py-3
+
+                text-xs sm:text-sm
+                font-medium
+
+                transition-all
+                duration-300
+
+                ${
+                  active
+                    ? `
+                        bg-zinc-100
+                        dark:bg-zinc-800
+                        text-zinc-900
+                        dark:text-white
+                        shadow-sm
+                      `
+                    : `
+                        text-zinc-600
+                        dark:text-zinc-300
+
+                        hover:bg-zinc-100
+                        dark:hover:bg-zinc-800
+
+                        hover:text-zinc-900
+                        dark:hover:text-white
+                      `
+                }
+              `}
+            >
+              <Icon className="h-5 w-5 lg:h-6 lg:w-6" />
+              {item.title}
+            </Link>
+          );
+        })}
+
+      </div>
+
+      {/* Bottom Menu */}
+      <div
+        className="
+          space-y-2
+          border-t
+          border-zinc-200
+          dark:border-zinc-800
+
+          bg-white
+          dark:bg-zinc-900
+
+          p-3
+          sm:p-4
+          lg:p-5
+
+          transition-colors
+          duration-300
+        "
+      >
+
+        <Link
+          href="/support"
+          className="
+            flex items-center gap-3
+            rounded-xl
+            px-3 py-2.5
+            lg:px-4 lg:py-3
+
+            text-xs sm:text-sm
+            font-medium
+
+            text-zinc-600
+            dark:text-zinc-300
+
+            transition-all
+            duration-300
+
+            hover:bg-zinc-100
+            dark:hover:bg-zinc-800
+
+            hover:text-zinc-900
+            dark:hover:text-white
+          "
+        >
+          <HeartPlus className="h-5 w-5 lg:h-6 lg:w-6" />
+          Support
+        </Link>
+
+        <button
+          onClick={onOpenSettings}
+          className="
+            flex w-full items-center gap-3
+            rounded-xl
+            px-3 py-2.5
+            lg:px-4 lg:py-3
+
+            text-xs sm:text-sm
+            font-medium
+
+            text-zinc-600
+            dark:text-zinc-300
+
+            transition-all
+            duration-300
+
+            hover:bg-zinc-100
+            dark:hover:bg-zinc-800
+
+            hover:text-zinc-900
+            dark:hover:text-white
+          "
+        >
+          <Settings className="h-5 w-5 lg:h-6 lg:w-6" />
+          Settings
+        </button>
+
+      </div>
+    </nav>
+  );
 }

@@ -11,11 +11,23 @@ export default function MainLayout({
   const [openSettings, setOpenSettings] = useState(false);
 
   return (
-    <div className="flex h-screen bg-slate-50">
+    <div className="flex min-h-screen bg-slate-50 dark:bg-zinc-950 transition-colors duration-300">
 
       <Sidebar onOpenSettings={() => setOpenSettings(true)} />
 
-      <main className="flex-1 overflow-y-auto bg-slate-50 px-5 pt-3 pb-5">
+      <main className="    
+          flex-1
+          h-screen
+          overflow-y-auto
+          bg-slate-50
+          dark:bg-zinc-950
+          text-zinc-900
+          dark:text-white
+          px-5
+          pt-3
+          pb-5
+          transition-colors
+          duration-300">
         {children}
       </main>
 

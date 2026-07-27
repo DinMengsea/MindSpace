@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Fredoka } from "next/font/google";
 import "./globals.css";
+import { AppSettingProvider } from "./components/provider/AppSettingProvider";
 
 const fredoka = Fredoka({
   subsets: ["latin"],
@@ -18,8 +19,10 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <body className={`${fredoka.className} bg-zinc-50`}>
-        {children}
+      <body className={`${fredoka.className} bg-zinc-50 text-zinc-900 dark:bg-zinc-950 dark:text-white transition-colors duration-300`}>
+        <AppSettingProvider>
+          {children}
+        </AppSettingProvider>
       </body>
     </html>
   );
