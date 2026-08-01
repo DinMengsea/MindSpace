@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Profile;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
@@ -23,6 +24,8 @@ class AuthController extends Controller
             'email' => $validated['email'],
             'password' => Hash::make($validated['password']),
         ]);
+
+        $user->profile()->create([]);
 
         return response()->json([
             'message' => 'User registered successfully',
@@ -60,11 +63,11 @@ class AuthController extends Controller
     }
 
     public function logout(Request $request)
-{
-    $request->user()->currentAccessToken()->delete();
+    {
+        $request->user()->currentAccessToken()->delete();
 
-    return response()->json([
-        'message' => 'Logout successful'
-    ]);
-}
+        return response()->json([
+            'message' => 'Logout successful'
+        ]);
+    }
 }
