@@ -30,7 +30,7 @@ export default function Header() {
             hover:bg-zinc-100
             dark:hover:bg-zinc-800
             hover:text-indigo-600
-            dark:hover:text-indigo-400
+            dark:hover:text-white
           "
         >
           <Bell size={20} />
@@ -47,7 +47,7 @@ export default function Header() {
             hover:bg-zinc-100
             dark:hover:bg-zinc-800
             hover:text-indigo-600
-            dark:hover:text-indigo-400
+            dark:hover:text-white
           "
         >
           <MessageCircleMore size={20} />
@@ -56,16 +56,19 @@ export default function Header() {
         <Link
           href="/login"
           className="
-            rounded-xl
-            bg-indigo-600
-            px-4
-            py-2
-            text-sm
-            font-medium
-            text-white
-            transition-all
-            duration-300
-            hover:bg-indigo-700
+          rounded-xl
+          bg-indigo-600
+          dark:bg-white
+          px-4
+          py-2
+          text-sm
+          font-medium
+          text-white
+          dark:text-zinc-900
+          transition-all
+          duration-300
+          hover:bg-indigo-700
+          dark:hover:bg-zinc-200
           "
         >
           Login

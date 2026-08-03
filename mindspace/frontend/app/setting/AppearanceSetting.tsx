@@ -6,9 +6,9 @@ import SettingCard from "./ui/SettingCard";
 import SettingSection from "./ui/SettingSection";
 import ThemeCard from "./ui/ThemeCard";
 import FontSelector from "./ui/FontSelector";
-import AppearancePreview from "./ui/AppearancePreview";
 
 import { useAppSetting } from "../components/provider/AppSettingProvider";
+import FontScaleSlider from "./ui/FontScaleSlider";
 
 export default function AppearanceSetting() {
   const {
@@ -16,6 +16,8 @@ export default function AppearanceSetting() {
     setFontSize,
     theme,
     setTheme,
+    fontScale,
+    setFontScale,
   } = useAppSetting();
 
   return (
@@ -68,19 +70,6 @@ export default function AppearanceSetting() {
 
       </SettingCard>
 
-      {/* Preview */}
-
-      <SettingCard>
-
-        <SettingSection
-          title="Theme Preview"
-          description="Preview your theme"
-        >
-          <AppearancePreview />
-        </SettingSection>
-
-      </SettingCard>
-
       {/* Font */}
 
       <SettingCard>
@@ -92,9 +81,39 @@ export default function AppearanceSetting() {
 
           <FontSelector
             value={fontSize}
-            onChange={setFontSize}
+            onChange={(size) => {
+              setFontSize(size);
+
+              switch (size) {
+                case "small":
+                  setFontScale(85);
+                  break;
+
+                case "medium":
+                  setFontScale(100);
+                  break;
+
+                case "large":
+                  setFontScale(115);
+                  break;
+              }
+            }}
           />
 
+          <FontScaleSlider
+            value={fontScale}
+            onChange={(scale) => {
+              setFontScale(scale);
+
+              if (scale <= 90) {
+                setFontSize("small");
+              } else if (scale <= 107) {
+                setFontSize("medium");
+              } else {
+                setFontSize("large");
+              }
+            }}
+          />
         </SettingSection>
 
       </SettingCard>

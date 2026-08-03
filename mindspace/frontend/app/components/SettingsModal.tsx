@@ -10,6 +10,7 @@ import AccountSettings from "../setting/AccountSettings";
 import AppearanceSetting from "../setting/AppearanceSetting";
 
 import type { SettingTab } from "../components/types";
+import JournalSettings from "../setting/JournalSettings";
 
 interface SettingModalProps {
   onClose: () => void;
@@ -24,7 +25,7 @@ export default function SettingsModal({
   const tabComponents: Record<SettingTab, React.ReactNode> = {
     account: <AccountSettings />,
     appearance: <AppearanceSetting />,
-    journal: <div>Journal Settings</div>,
+    journal: <JournalSettings/>,
     notification: <div>Notification Settings</div>,
     privacy: <div>Privacy Settings</div>,
     security: <div>Security Settings</div>,
