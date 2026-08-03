@@ -4,11 +4,46 @@ import Link from "next/link";
 import { useState } from "react";
 import { Mail, Lock, Cake, Brain } from "lucide-react";
 
+import { register } from "@/lib/api";
+import { useRouter } from "next/navigation";
+
 export default function SignupPage() {
-  const [password, setPassword] = useState("");
-  const [confirmPassword, setConfirmPassword] = useState("");
-  const [fullName, setFullName] = useState("");
-  const [username, setUsername] = useState("");
+    const [name, setName] = useState("");
+    const [email, setEmail] = useState("");
+    const [password, setPassword] = useState("");
+    const [confirmPassword, setConfirmPassword] = useState("");
+    const [loading, setLoading] = useState(false);
+    const router = useRouter();
+
+    const handleSignup = async () => {
+        if (password !== confirmPassword) {
+            alert("Passwords do not match");
+            return;
+        }
+
+        try {
+            setLoading(true);
+
+            await register({
+            name,
+            email,
+            password,
+            password_confirmation: confirmPassword,
+            });
+
+            alert("Account created successfully!");
+
+            router.push("/login");
+        } catch (error) {
+            if (error instanceof Error) {
+            alert(error.message);
+            } else {
+            alert("Something went wrong");
+            }
+        } finally {
+            setLoading(false);
+        }
+        };
 
   return (
     <main
@@ -79,120 +114,19 @@ export default function SignupPage() {
           </p>
         </div>
 
-        {/* Full Name & Username */}
+        {/* Name */}
+        <div className="mb-5">
+        <label className="block text-sm font-medium text-slate-700 mb-2">
+            Name
+        </label>
 
-        <div className="mb-5 grid grid-cols-1 gap-5 md:grid-cols-2">
-          {/* Full Name */}
-
-          <div>
-            <label className="mb-2 block text-sm font-medium text-slate-700 dark:text-zinc-300">
-              Full Name
-            </label>
-
-            <div
-              className="
-                flex
-                items-center
-
-                rounded-xl
-
-                border
-                border-slate-200
-                dark:border-zinc-700
-
-                bg-white
-                dark:bg-zinc-900
-
-                px-4
-                py-3
-
-                transition-all
-
-                focus-within:border-indigo-500
-                focus-within:ring-2
-                focus-within:ring-indigo-500
-
-                dark:focus:border-white
-                dark:focus:ring-zinc-700
-            "
-            >
-              <input
-                type="text"
-                value={fullName}
-                onChange={(e) => setFullName(e.target.value)}
-                placeholder="Your Name"
-                className="
-                w-full
-
-                bg-transparent
-
-                text-slate-700
-                dark:text-white
-
-                placeholder:text-slate-400
-                dark:placeholder:text-zinc-500
-
-                outline-none
-                "
-              />
-            </div>
-          </div>
-
-          {/* Username */}
-
-          <div>
-            <label className="mb-2 block text-sm font-medium text-slate-700 dark:text-zinc-300">
-              Username
-            </label>
-
-            <div
-              className="
-                flex
-                items-center
-
-                rounded-xl
-
-                border
-                border-slate-200
-                dark:border-zinc-700
-
-                bg-white
-                dark:bg-zinc-900
-
-                px-4
-                py-3
-
-                transition-all
-
-                focus-within:border-indigo-500
-                focus-within:ring-2
-                focus-within:ring-indigo-500
-
-                dark:focus:border-white
-                dark:focus:ring-zinc-700
-            "
-            >
-              <input
-                type="text"
-                value={username}
-                onChange={(e) => setUsername(e.target.value)}
-                placeholder="Username"
-                className="
-                w-full
-
-                bg-transparent
-
-                text-slate-700
-                dark:text-white
-
-                placeholder:text-slate-400
-                dark:placeholder:text-zinc-500
-
-                outline-none
-                "
-              />
-            </div>
-          </div>
+        <input
+            type="text"
+            placeholder="Your name"
+            value={name}
+            onChange={(e) => setName(e.target.value)}
+            className="w-full border rounded-xl px-4 py-3 outline-none focus:ring-2 focus:ring-indigo-500"
+        />
         </div>
 
         {/* Email */}
@@ -202,54 +136,16 @@ export default function SignupPage() {
             Email
           </label>
 
-          <div
-            className="
-              flex
-              items-center
-
-              rounded-xl
-
-              border
-              border-slate-200
-              dark:border-zinc-700
-
-              bg-white
-              dark:bg-zinc-900
-
-              px-4
-              py-3
-
-              transition-all
-
-              focus-within:border-indigo-500
-              focus-within:ring-2
-              focus-within:ring-indigo-500
-
-              dark:focus:border-white
-              dark:focus:ring-zinc-700
-            "
-          >
-            <Mail size={20} className="text-slate-400 dark:text-zinc-500" />
-
-            <input
-              type="email"
-              placeholder="youremail@email.com"
-              className="
-                ml-3
-                w-full
-
-                bg-transparent
-
-                text-slate-700
-                dark:text-white
-
-                placeholder:text-slate-400
-                dark:placeholder:text-zinc-500
-
-                outline-none
-              "
-            />
-          </div>
+            <div className="flex items-center border rounded-xl px-4 py-3 focus-within:ring-2 focus-within:ring-indigo-500">
+                <Mail className="text-slate-400" size={20} />
+                <input
+                    type="email"
+                    placeholder="youremail@email.com"
+                    value={email}
+                    onChange={(e) => setEmail(e.target.value)}
+                    className="ml-3 w-full outline-none placeholder:text-slate-400 text-slate-400"
+                />
+            </div>
         </div>
 
         {/* Password */}
@@ -437,29 +333,11 @@ export default function SignupPage() {
         {/* Sign Up */}
 
         <button
-          className="
-            mt-6
-            w-full
-
-            rounded-xl
-
-            bg-indigo-600
-
-            py-3
-
-            font-semibold
-            text-white
-
-            transition
-
-            hover:bg-indigo-700
-
-            dark:bg-white
-            dark:text-zinc-900
-            dark:hover:bg-zinc-200
-          "
+            onClick={handleSignup}
+            disabled={loading}
+            className="w-full mt-6 rounded-xl bg-indigo-600 py-3 font-semibold text-white hover:bg-indigo-700 transition disabled:opacity-50"
         >
-          Sign Up
+            {loading ? "Creating Account..." : "Sign Up"}
         </button>
 
         {/* Login */}

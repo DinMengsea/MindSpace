@@ -3,11 +3,43 @@
 import Link from "next/link";
 import { Mail, Lock, Eye, EyeClosed, Brain } from "lucide-react";
 import { useState } from "react";
+import { useRouter } from "next/navigation";
+import { login } from "@/lib/api";
 
 export default function LoginPage() {
-  const [showPassword, setShowPassword] = useState(false);
-  const [password, setPassword] = useState("");
+  const router = useRouter();
 
+  const [showPassword, setShowPassword] = useState(false);
+
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [loading, setLoading] = useState(false);
+
+  const handleLogin = async () => {
+    try {
+      setLoading(true);
+
+      const result = await login({
+        email,
+        password,
+      });
+
+      // Save the token
+      localStorage.setItem("token", result.token);
+
+      alert("Login successful!");
+
+      router.push("/");
+    } catch (error) {
+      if (error instanceof Error) {
+        alert(error.message);
+      } else {
+        alert("Login failed");
+      }
+    } finally {
+      setLoading(false);
+    }
+  };
   return (
     <main
       className="
@@ -125,20 +157,9 @@ export default function LoginPage() {
             <input
               type="email"
               placeholder="youremail@email.com"
-              className="
-                ml-3
-                w-full
-
-                bg-transparent
-
-                text-slate-700
-                dark:text-white
-
-                placeholder:text-slate-400
-                dark:placeholder:text-zinc-500
-
-                outline-none
-              "
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              className="ml-3 w-full outline-none placeholder:text-slate-400 text-slate-400"
             />
 
           </div>
@@ -265,28 +286,11 @@ export default function LoginPage() {
         {/* Login */}
 
         <button
-          className="
-            mt-6
-            w-full
-
-            rounded-xl
-
-            bg-indigo-600
-            py-3
-
-            font-semibold
-            text-white
-
-            transition
-
-            hover:bg-indigo-700
-
-            dark:bg-white
-            dark:text-zinc-900
-            dark:hover:bg-zinc-200
-          "
+          onClick={handleLogin}
+          disabled={loading}
+          className="w-full mt-6 rounded-xl bg-indigo-600 py-3 font-semibold text-white hover:bg-indigo-700 transition disabled:opacity-50"
         >
-          Login
+          {loading ? "Logging in..." : "Login"}
         </button>
 
         {/* Register */}
