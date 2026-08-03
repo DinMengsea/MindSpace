@@ -11,6 +11,7 @@ import AppearanceSetting from "../setting/AppearanceSetting";
 
 import type { SettingTab } from "../components/types";
 import JournalSettings from "../setting/JournalSettings";
+import NotificationSettings from "../setting/NotificationSettings";
 
 interface SettingModalProps {
   onClose: () => void;
@@ -26,7 +27,7 @@ export default function SettingsModal({
     account: <AccountSettings />,
     appearance: <AppearanceSetting />,
     journal: <JournalSettings/>,
-    notification: <div>Notification Settings</div>,
+    notification: <NotificationSettings/>,
     privacy: <div>Privacy Settings</div>,
     security: <div>Security Settings</div>,
     language: <div>Language Settings</div>,
