@@ -6,6 +6,7 @@ use App\Services\NotificationService;
 use App\Models\Like;
 use App\Models\Post;
 use Illuminate\Support\Facades\Auth;
+use App\Events\PostLiked;
 
 class LikeController extends Controller
 {
@@ -33,6 +34,8 @@ class LikeController extends Controller
             'user_id' => Auth::id(),
             'post_id' => $id,
         ]);
+
+        broadcast(new PostLiked($post))->toOthers();
 
         // Notify the post owner (but not yourself)
     if ($post->user_id != Auth::id()) {
@@ -66,6 +69,10 @@ class LikeController extends Controller
         }
 
         $like->delete();
+
+        $post = Post::find($id);
+
+        broadcast(new PostLiked($post))->toOthers();
 
         return response()->json([
             'message' => 'Post unliked successfully'

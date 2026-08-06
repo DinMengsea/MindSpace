@@ -74,4 +74,6 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::delete('/notifications/{id}', [NotificationController::class, 'destroy']);
     Route::get('/notifications/unread-count', [NotificationController::class, 'unreadCount']);
 
+    Route::post('/messages/typing', [MessageController::class, 'typing']);
+
 });

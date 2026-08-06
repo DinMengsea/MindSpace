@@ -15,6 +15,7 @@ export default function Home() {
 
         console.log(data);
       } catch (error) {
+        
         console.error(error);
       }
     }

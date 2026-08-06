@@ -8,6 +8,8 @@ use App\Models\Friend;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Events\MessageSent;
+use App\Events\MessageSeen;
+use App\Events\Typing;
 
 class MessageController extends Controller
 {
@@ -123,6 +125,8 @@ class MessageController extends Controller
                 'is_seen' => true
             ]);
 
+        broadcast(new MessageSeen($friendId, $userId));
+
         return response()->json([
             'message' => 'Messages marked as seen.'
         ]);
@@ -158,5 +162,23 @@ class MessageController extends Controller
     public function __construct(NotificationService $notificationService)
     {
         $this->notificationService = $notificationService;
+    }
+
+    public function typing(Request $request)
+    {
+        $validated = $request->validate([
+            'receiver_id' => 'required|exists:users,id',
+            'typing' => 'required|boolean',
+        ]);
+
+        broadcast(new Typing(
+            Auth::id(),
+            $validated['receiver_id'],
+            $validated['typing']
+        ))->toOthers();
+
+        return response()->json([
+            'message' => 'Typing status broadcasted.'
+        ]);
     }
 }

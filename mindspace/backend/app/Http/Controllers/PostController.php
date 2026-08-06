@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Post;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use App\Events\PostCreated;
 
 class PostController extends Controller
 {
@@ -31,6 +32,8 @@ class PostController extends Controller
             'content' => $validated['content'],
             'image' => $validated['image'] ?? null,
         ]);
+
+        broadcast(new PostCreated($post))->toOthers();
 
         return response() -> json([
             'message' => 'Post create successfully.',

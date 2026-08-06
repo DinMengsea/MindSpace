@@ -7,6 +7,7 @@ use App\Models\Comment;
 use App\Models\Post;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use App\Events\CommentAdded;
 
 class CommentController extends Controller
 {   
@@ -33,6 +34,8 @@ class CommentController extends Controller
             'post_id' => $id,
             'content' => $validated['content'],
         ]);
+
+        broadcast(new CommentAdded($comment))->toOthers();
 
         // Notify the post owner (except yourself)
         if ($post->user_id != Auth::id()) {
