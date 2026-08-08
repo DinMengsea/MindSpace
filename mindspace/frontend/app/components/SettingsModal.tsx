@@ -12,6 +12,10 @@ import AppearanceSetting from "../setting/AppearanceSetting";
 import type { SettingTab } from "../components/types";
 import JournalSettings from "../setting/JournalSettings";
 import NotificationSettings from "../setting/NotificationSettings";
+import PrivacySettings from "../setting/PrivacySettings";
+import SecuritySettings from "../setting/SecuritySettings";
+import LanguageSettings from "../setting/LanguageSettings";
+import AboutSettings from "../setting/AboutSettings";
 
 interface SettingModalProps {
   onClose: () => void;
@@ -28,10 +32,10 @@ export default function SettingsModal({
     appearance: <AppearanceSetting />,
     journal: <JournalSettings/>,
     notification: <NotificationSettings/>,
-    privacy: <div>Privacy Settings</div>,
-    security: <div>Security Settings</div>,
-    language: <div>Language Settings</div>,
-    about: <div>About MindSpace</div>,
+    privacy: <PrivacySettings/>,
+    security: <SecuritySettings/>,
+    language: <LanguageSettings/>,
+    about: <AboutSettings/>,
   };
 
   return (
