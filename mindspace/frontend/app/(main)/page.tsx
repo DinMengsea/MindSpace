@@ -1,47 +1,46 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import MoodCheckIn from "../components/MoodCheckin";
+import TodaysMood from "../components/TodaysMood";
+import QuickActions from "../components/QuickActions";
 import Header from "../components/header";
-import { getUser } from "../../lib/api";
 
 export default function Home() {
-  const [user, setUser] = useState<any>(null);
-
-  useEffect(() => {
-    async function loadUser() {
-      try {
-        const data = await getUser();
-        setUser(data);
-
-        console.log(data);
-      } catch (error) {
-        
-        console.error(error);
-      }
-    }
-
-    loadUser();
-  }, []);
-
   return (
-    <div
+    <main
       className="
-        flex
-        flex-1
-        flex-col
-        font-sans
+        min-h-full
         bg-zinc-50
+        px-5
+        py-6
         dark:bg-zinc-950
-        transition-colors
-        duration-300"
+        lg:px-8
+        lg:py-8
+      "
     >
-      <main className="w-full px-5">
-        <Header />
 
-        <div className="mt-3">
-          {/* Home Content Goes Here */}
+      <div className="mx-auto w-full max-w-[1500px]">
+
+        <Header/>
+
+
+        {/* Mood section */}
+
+        <div className="mt-6 grid gap-6 lg:grid-cols-[1fr_320px]">
+
+          <MoodCheckIn />
+
+          <TodaysMood />
+
         </div>
-      </main>
-    </div>
+
+
+        {/* Quick Actions */}
+
+        <QuickActions />
+
+      </div>
+
+    </main>
   );
 }
